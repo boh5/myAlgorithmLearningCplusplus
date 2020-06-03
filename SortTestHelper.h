@@ -54,5 +54,11 @@ namespace SortTestHelper {
         cout << sortName << double(endTime - startTime) / CLOCKS_PER_SEC << " s" << endl;
     }
 
+    int *copyIntArray(int a[], int n) {
+        int *arr = new int[n];
+        copy(a, a + n, arr);
+        return arr;
+    }
+
 }
 #endif //ALGORITHM_SORTTESTHELPER_H

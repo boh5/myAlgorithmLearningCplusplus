@@ -17,13 +17,26 @@ void selectionSort(T arr[], int n) {
     }
 }
 
+template<typename T>
+void insertionSort(T arr[], int n) {
+
+    for (int i = 1; i < n; ++i) {
+
+        for (int j = i; j > 0 && arr[j] < arr[j - 1]; --j) {
+            swap(arr[j], arr[j - 1]);
+        }
+    }
+}
+
+
 int main() {
     int n = 10000;
     int *arr = SortTestHelper::generateRandomArray(n, 0, n);
-//    selectionSort(arr, n);
-//    SortTestHelper::printArray(arr, n);
+    int *arr2 = SortTestHelper::copyIntArray(arr, n);
     SortTestHelper::testSort("Selection Sort", selectionSort, arr, n);
+    SortTestHelper::testSort("Insertion Sort", insertionSort, arr2, n);
     delete[] arr;
+    delete[] arr2;
 
     return 0;
 }
