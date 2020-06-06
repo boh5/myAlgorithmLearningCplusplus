@@ -35,6 +35,18 @@ void insertionSort(T arr[], int n) {
 }
 
 template<typename T>
+void insertionSort(T arr[], int l, int r) {
+    for (int i = l+1; i <= r; ++i) {
+        T e = arr[i];
+        int j;
+        for (j = i; j > l && arr[j - 1] > e; --j) {
+            arr[j] = arr[j - 1];
+        }
+        arr[j] = e;
+    }
+}
+
+template<typename T>
 void __merge(T arr[], int l, int mid, int r) {
     T aux[r - l + 1];
     for (int i = l; i <= r; ++i) {
@@ -63,7 +75,13 @@ void __merge(T arr[], int l, int mid, int r) {
 template<typename T>
 void __mergeSort(T arr[], int l, int r) {
 
-    if (l >= r) {
+//    if (l >= r) {
+//        return;
+//    }
+
+    // 优化1：小数据用插入排序，不再递归
+    if (r - l <= 15) {
+        insertionSort(arr, l, r);
         return;
     }
 
@@ -71,7 +89,10 @@ void __mergeSort(T arr[], int l, int r) {
     __mergeSort(arr, l, mid);
     __mergeSort(arr, mid + 1, r);
 
-    __merge(arr, l, mid, r);
+    // 优化2：如果 mid 比 mid + 1 还小，说明该子序列已经有序，不再需要 merge 操作
+    if (arr[mid] > arr[mid + 1]) {
+        __merge(arr, l, mid, r);
+    }
 }
 
 // 归并排序
@@ -87,8 +108,16 @@ int main() {
     int *arr2 = SortTestHelper::copyIntArray(arr, n);
     SortTestHelper::testSort("Insertion Sort", insertionSort, arr, n);
     SortTestHelper::testSort("Merge Sort", mergeSort, arr2, n);
+
+    int *arr3 = SortTestHelper::generateNearlyOrderedArray(n, 10);
+    int *arr4 = SortTestHelper::copyIntArray(arr3, n);
+    SortTestHelper::testSort("Insertion Sort", insertionSort, arr3, n);
+    SortTestHelper::testSort("Merge Sort", mergeSort, arr4, n);
     delete[] arr;
     delete[] arr2;
+    delete[] arr3;
+    delete[] arr4;
+
 
     return 0;
 }

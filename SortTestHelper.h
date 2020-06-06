@@ -65,7 +65,7 @@ namespace SortTestHelper {
 
         assert(isSorted(arr, n));
 
-        cout << sortName << double(endTime - startTime) / CLOCKS_PER_SEC << " s" << endl;
+        cout << sortName << ": " << double(endTime - startTime) / CLOCKS_PER_SEC << " s" << endl;
     }
 
     int *copyIntArray(int a[], int n) {
