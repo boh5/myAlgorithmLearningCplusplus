@@ -116,6 +116,9 @@ void mergeSortBU(T arr[], int n) {
 
 template<typename T>
 int __partition(T arr[], int l, int r) {
+    // 随机选择中间点元素，避免二叉树不平衡
+    swap(arr[l], arr[(rand() % (r - l + 1)) + l]);
+
     T v = arr[l];
 
     int j = l;
@@ -131,9 +134,14 @@ int __partition(T arr[], int l, int r) {
 
 template<typename T>
 void __quickSort(T arr[], int l, int r) {
-    if (l >= r) {
+//    if (l >= r) {
+//        return;
+//    }
+    if (r - l <= 15) {
+        insertionSort(arr, l, r);
         return;
     }
+
     int p = __partition(arr, l, r);
     __quickSort(arr, l, p - 1);
     __quickSort(arr, p + 1, r);
@@ -143,24 +151,84 @@ void __quickSort(T arr[], int l, int r) {
 // !!!对近乎有序的数组，快排退化成了 O(n^2) 的算法
 template<typename T>
 void quickSort(T arr[], int n) {
+    srand(time(NULL));
     __quickSort(arr, 0, n - 1);
+}
+
+template<typename T>
+int __partition2(T arr[], int l, int r) {
+    // 随机选择中间点元素，避免二叉树不平衡
+    swap(arr[l], arr[(rand() % (r - l + 1)) + l]);
+    T v = arr[l];
+
+    // arr[l+1,i) <=v; arr(j,r] >=v
+    int i = l + 1, j = r;
+    while (true) {
+        while (i <= r && arr[i] < v) i++;
+        while (j >= l + 1 && arr[j] > v) j--;
+        if (i > j) break;
+        swap(arr[i], arr[j]);
+        i++;
+        j--;
+    }
+
+    swap(arr[l], arr[j]);
+
+    return j;
+}
+
+template<typename T>
+void __quickSort2(T arr[], int l, int r) {
+    if (r - l <= 15) {
+        insertionSort(arr, l, r);
+        return;
+    }
+
+    int p = __partition2(arr, l, r);
+    __quickSort2(arr, l, p - 1);
+    __quickSort2(arr, p + 1, r);
+}
+
+// 快速排序
+// !!!对近乎有序的数组，快排退化成了 O(n^2) 的算法
+template<typename T>
+void quickSort2(T arr[], int n) {
+    srand(time(NULL));
+    __quickSort2(arr, 0, n - 1);
 }
 
 int main() {
     int n = 1000000;
-    int *arr = SortTestHelper::generateRandomArray(n, 0, n);
-    int *arr2 = SortTestHelper::copyIntArray(arr, n);
-    SortTestHelper::testSort("Merge Sort", mergeSort, arr, n);
+    int *arr1 = SortTestHelper::generateRandomArray(n, 0, n);
+    int *arr2 = SortTestHelper::copyIntArray(arr1, n);
+    int *arr3 = SortTestHelper::copyIntArray(arr1, n);
+    SortTestHelper::testSort("Merge Sort", mergeSort, arr1, n);
     SortTestHelper::testSort("Quick Sort", quickSort, arr2, n);
+    SortTestHelper::testSort("Quick Sort2", quickSort2, arr3, n);
 
-    int *arr3 = SortTestHelper::generateNearlyOrderedArray(n, 10);
-    int *arr4 = SortTestHelper::copyIntArray(arr3, n);
-    SortTestHelper::testSort("Merge Sort", mergeSort, arr3, n);
-    SortTestHelper::testSort("Quick Sort", quickSort, arr4, n);
-    delete[] arr;
+    delete[] arr1;
     delete[] arr2;
-    delete[] arr3;
-    delete[] arr4;
+
+    arr1 = SortTestHelper::generateNearlyOrderedArray(n, 100);
+    arr2 = SortTestHelper::copyIntArray(arr1, n);
+    arr3 = SortTestHelper::copyIntArray(arr1, n);
+    SortTestHelper::testSort("Merge Sort", mergeSort, arr1, n);
+    SortTestHelper::testSort("Quick Sort", quickSort, arr2, n);
+    SortTestHelper::testSort("Quick Sort2", quickSort2, arr3, n);
+
+    delete[] arr1;
+    delete[] arr2;
+
+    arr1 = SortTestHelper::generateRandomArray(n, 0, 10);
+    arr2 = SortTestHelper::copyIntArray(arr1, n);
+    arr3 = SortTestHelper::copyIntArray(arr1, n);
+
+    SortTestHelper::testSort("Merge Sort", mergeSort, arr1, n);
+//    SortTestHelper::testSort("Quick Sort", quickSort, arr2, n);
+    SortTestHelper::testSort("Quick Sort2", quickSort2, arr3, n);
+
+    delete[] arr1;
+    delete[] arr2;
 
 
     return 0;
