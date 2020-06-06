@@ -48,7 +48,9 @@ void insertionSort(T arr[], int l, int r) {
 
 template<typename T>
 void __merge(T arr[], int l, int mid, int r) {
-    T aux[r - l + 1];
+    // 大数组用 new 生成，delete[] 删除
+//    T aux[r - l + 1];
+    T *aux = new T[r - l + 1];
     for (int i = l; i <= r; ++i) {
         aux[i - l] = arr[i];
     }
@@ -70,6 +72,7 @@ void __merge(T arr[], int l, int mid, int r) {
             }
         }
     }
+    delete[] aux;
 }
 
 template<typename T>
@@ -111,17 +114,49 @@ void mergeSortBU(T arr[], int n) {
     }
 }
 
+template<typename T>
+int __partition(T arr[], int l, int r) {
+    T v = arr[l];
+
+    int j = l;
+    for (int i = l + 1; i <= r; ++i) {
+        if (arr[i] < v) {
+            swap(arr[j + 1], arr[i]);
+            j++;
+        }
+    }
+    swap(arr[l], arr[j]);
+    return j;
+}
+
+template<typename T>
+void __quickSort(T arr[], int l, int r) {
+    if (l >= r) {
+        return;
+    }
+    int p = __partition(arr, l, r);
+    __quickSort(arr, l, p - 1);
+    __quickSort(arr, p + 1, r);
+}
+
+// 快速排序
+// !!!对近乎有序的数组，快排退化成了 O(n^2) 的算法
+template<typename T>
+void quickSort(T arr[], int n) {
+    __quickSort(arr, 0, n - 1);
+}
+
 int main() {
-    int n = 50000;
+    int n = 1000000;
     int *arr = SortTestHelper::generateRandomArray(n, 0, n);
     int *arr2 = SortTestHelper::copyIntArray(arr, n);
-    SortTestHelper::testSort("Insertion Sort", insertionSort, arr, n);
-    SortTestHelper::testSort("Merge Sort", mergeSort, arr2, n);
+    SortTestHelper::testSort("Merge Sort", mergeSort, arr, n);
+    SortTestHelper::testSort("Quick Sort", quickSort, arr2, n);
 
     int *arr3 = SortTestHelper::generateNearlyOrderedArray(n, 10);
     int *arr4 = SortTestHelper::copyIntArray(arr3, n);
-    SortTestHelper::testSort("Insertion Sort", insertionSort, arr3, n);
-    SortTestHelper::testSort("Merge Sort", mergeSort, arr4, n);
+    SortTestHelper::testSort("Merge Sort", mergeSort, arr3, n);
+    SortTestHelper::testSort("Quick Sort", quickSort, arr4, n);
     delete[] arr;
     delete[] arr2;
     delete[] arr3;
