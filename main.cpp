@@ -36,7 +36,7 @@ void insertionSort(T arr[], int n) {
 
 template<typename T>
 void insertionSort(T arr[], int l, int r) {
-    for (int i = l+1; i <= r; ++i) {
+    for (int i = l + 1; i <= r; ++i) {
         T e = arr[i];
         int j;
         for (j = i; j > l && arr[j - 1] > e; --j) {
@@ -101,6 +101,15 @@ void mergeSort(T arr[], int n) {
     __mergeSort(arr, 0, n - 1);
 }
 
+// 自底向上的归并排序
+template<typename T>
+void mergeSortBU(T arr[], int n) {
+    for (int size = 1; size < n; size += size) {
+        for (int i = 0; i + size < n; i += size + size) {
+            __merge(arr, i, i + size - 1, min(i + size + size - 1, n - 1));
+        }
+    }
+}
 
 int main() {
     int n = 50000;
