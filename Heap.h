@@ -19,7 +19,7 @@ class MaxHeap {
 private:
     Item *data;
     int count;
-    int capacity;
+    int capacity{};
 
     void shiftUp(int k) {
 
@@ -47,7 +47,7 @@ private:
     }
 
 public:
-    MaxHeap(int capacity) {
+    explicit MaxHeap(int capacity) {
         data = new Item[capacity + 1];
         count = 0;
         this->capacity = capacity;
