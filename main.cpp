@@ -7,6 +7,7 @@
 #include "Sort/QuickSort3Ways.h"
 #include "Sort/MergeSort.h"
 #include "BinarySearchTree/BinarySearch.h"
+#include "BinarySearchTree/BST.h"
 
 using namespace std;
 
