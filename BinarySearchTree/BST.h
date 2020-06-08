@@ -51,6 +51,14 @@ public:
         root = insert(root, key, value);
     }
 
+    bool contain(Key key) {
+        return contain(root, key);
+    }
+
+    Value *search(Key key) {
+        return search(root, key);
+    }
+
 private:
     Node *insert(Node *node, Key key, Value value) {
 
@@ -66,6 +74,34 @@ private:
             node->right = insert(node->right, key, value);
         }
         return node;
+    }
+
+    bool contain(Node *node, Key key) {
+
+        if (node == NULL) {
+            return false;
+        }
+        if (key == node->key) {
+            return true;
+        } else if (key < node->key) {
+            return contain(node->left, key);
+        } else {
+            return contain(node->right, key);
+        }
+    }
+
+    Value *search(Node *node, Key key) {
+
+        if (node == NULL) {
+            return NULL;
+        }
+        if (key == node->key) {
+            return &(node->value);
+        } else if (key < node->key) {
+            return search(node->left, key);
+        } else {
+            return search(node->right, key);
+        }
     }
 };
 
