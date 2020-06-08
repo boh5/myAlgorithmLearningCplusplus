@@ -3,5 +3,4 @@ project(algorithm)
 
 set(CMAKE_CXX_STANDARD 11)
 
-#add_executable(algorithm main.cpp SortTestHelper.h InsertionSort.h MergeSort.h QuickSort.h QuickSort2Ways.h QuickSort3Ways.h)  # 第三章 排序算法
-add_executable(algorithm heap.cpp SortTestHelper.h Heap.h InsertionSort.h MergeSort.h QuickSort.h QuickSort2Ways.h QuickSort3Ways.h HeapSort.h SelectionSort.h LocalHeapSort.h IndexMaxHeap.h)  # 第四章堆和堆排序
+add_executable(algorithm main.cpp Sort/SortTestHelper.h Sort/InsertionSort.h Sort/MergeSort.h Sort/QuickSort.h Sort/QuickSort2Ways.h Sort/QuickSort3Ways.h)  # 第三章 排序算法

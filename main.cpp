@@ -1,11 +1,11 @@
 #include <iostream>
-#include "SortTestHelper.h"
-#include "Student.h"
-#include "InsertionSort.h"
-#include "QuickSort.h"
-#include "QuickSort2Ways.h"
-#include "QuickSort3Ways.h"
-#include "MergeSort.h"
+#include "Sort/SortTestHelper.h"
+#include "Sort/Student.h"
+#include "Sort/InsertionSort.h"
+#include "Sort/QuickSort.h"
+#include "Sort/QuickSort2Ways.h"
+#include "Sort/QuickSort3Ways.h"
+#include "Sort/MergeSort.h"
 
 using namespace std;
 
