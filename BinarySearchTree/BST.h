@@ -26,6 +26,13 @@ private:
             this->left = this->right = NULL;
         }
 
+        Node(Node *node) {
+            this->key = node->key;
+            this->value = node->value;
+            this->left = node->left;
+            this->right = node->right;
+        }
+
     };
 
     Node *root;
@@ -113,6 +120,10 @@ public:
         if (root) {
             root = removeMax(root);
         }
+    }
+
+    void remove(Key key) {
+        root = remove(root, key);
     }
 
 
@@ -231,6 +242,44 @@ private:
         }
         node->right = removeMin(node->right);
         return node;
+    }
+
+    Node *remove(Node *node, Key key) {
+
+        if (node == NULL) {
+            return NULL;
+        }
+        if (key < node->key) {
+            node->left = remove(node->left, key);
+            return node;
+        } else if (key > node->key) {
+            node->right = remove(node->right, key);
+            return node;
+        } else {
+            if (node->left == NULL) {
+                Node *rightNode = node->right;
+                delete node;
+                count--;
+                return rightNode;
+            }
+            if (node->right == NULL) {
+                Node *leftNode = node->left;
+                delete node;
+                count--;
+                return leftNode;
+            }
+
+            Node *successor = new Node(minimum(node->right));
+            count ++;
+
+            successor->right = removeMin(node->right);
+            successor->left = node->left;
+
+            delete node;
+            count--;
+
+            return successor;
+        }
     }
 };
 
