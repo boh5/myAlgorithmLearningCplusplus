@@ -6,6 +6,8 @@
 #define ALGORITHM_BST_H
 
 #include <iostream>
+#include <queue>
+#include <cassert>
 
 using namespace std;
 
@@ -36,7 +38,7 @@ public:
     }
 
     ~BST() {
-        // TODO
+        destroy(root);
     }
 
     int size() {
@@ -58,6 +60,49 @@ public:
     Value *search(Key key) {
         return search(root, key);
     }
+
+    void preOrder() {
+        preOrder(root);
+    }
+
+    void inOrder() {
+        inOrder(root);
+    }
+
+    void postOrder() {
+        postOrder(root);
+    }
+
+    void levelOrder() {
+
+        queue<Node *> q;
+        q.push(root);
+        while (!q.empty()) {
+            Node *node = q.front();
+            q.pop();
+            cout << node->key << endl;
+
+            if (node->left) {
+                q.push(node->left);
+            }
+            if (node->right) {
+                q.push(node->right);
+            }
+        }
+    }
+
+    Key minimum() {
+        assert(count != 0);
+        Node *minNode = minimum(root);
+        return minNode->key;
+    }
+
+    Key maximum() {
+        assert(count != 0);
+        Node *maxNode = maximum(root);
+        return maxNode->key;
+    }
+
 
 private:
     Node *insert(Node *node, Key key, Value value) {
@@ -102,6 +147,56 @@ private:
         } else {
             return search(node->right, key);
         }
+    }
+
+    void preOrder(Node *node) {
+
+        if (node != NULL) {
+            count << node->key << endl;
+            preOrder(node->left);
+            preOrder(node->right);
+        }
+    }
+
+    void inOrder(Node *node) {
+
+        if (node != NULL) {
+            preOrder(node->left);
+            count << node->key << endl;
+            preOrder(node->right);
+        }
+    }
+
+    void postOrder(Node *node) {
+
+        if (node != NULL) {
+            preOrder(node->left);
+            preOrder(node->right);
+            count << node->key << endl;
+        }
+    }
+
+    void destroy(Node *node) {
+        if (node != NULL) {
+            destroy(node->left);
+            destroy(node->right);
+            delete node;
+            count--;
+        }
+    }
+
+    Node *minimum(Node *node) {
+        if (node->left == NULL) {
+            return node;
+        }
+        return minimum(node->left);
+    }
+
+    Node *maximum(Node *node) {
+        if (node->right == NULL) {
+            return node;
+        }
+        return maximum(node->right);
     }
 };
 
