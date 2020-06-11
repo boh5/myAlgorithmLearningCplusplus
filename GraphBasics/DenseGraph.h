@@ -58,6 +58,17 @@ public:
         return g[v][w];
     }
 
+    void show() {
+        for (int i = 0; i < n; ++i) {
+            cout << "vertex " << i << ":\t";
+            for (int j = 0; j < g[i].size(); ++j) {
+                cout << g[i][j] << "\t";
+            }
+            cout << endl;
+        }
+    }
+
+
     class adjIterator {
     private:
         DenseGraph &G;
@@ -75,7 +86,7 @@ public:
         }
 
         int next() {
-            for (index += 1;  index<G.V() ; index++) {
+            for (index += 1; index < G.V(); index++) {
                 if (G.g[v][index]) {
                     return index;
                 }

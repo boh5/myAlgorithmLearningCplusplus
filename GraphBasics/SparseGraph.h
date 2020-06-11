@@ -57,6 +57,16 @@ public:
         }
     }
 
+    void show() {
+        for (int i = 0; i < n; ++i) {
+            cout << "vertex " << i << ":\t";
+            for (int j = 0; j < g[i].size(); ++j) {
+                cout << g[i][j] << "\t";
+            }
+            cout << endl;
+        }
+    }
+
     class adjIterator {
     private:
         SparseGraph &G;
