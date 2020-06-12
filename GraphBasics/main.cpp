@@ -9,6 +9,7 @@
 #include "ReadGraph.h"
 #include "Component.h"
 #include "Path.h"
+#include "ShortestPath.h"
 
 using namespace std;
 
@@ -17,7 +18,7 @@ int main() {
     // TestG1.txt - g1 and g2
     string filename = "D:\\Files\\codes\\cplusplus\\algorithm\\GraphBasics\\testG2.txt";
     SparseGraph g = SparseGraph(7, false);
-    ReadGraph<SparseGraph> readGraph1(g, filename);
+    ReadGraph<SparseGraph> readGraph(g, filename);
     g.show();
     cout << endl;
 
@@ -25,6 +26,9 @@ int main() {
     cout << "DFS: ";
     dfs.showPath(6);
 
+    ShortestPath<SparseGraph> bfs(g, 0);
+    cout << "BFS: ";
+    bfs.showPath(6);
 
     return 0;
 }
